@@ -7,7 +7,7 @@ import type {
 import { getMinioClient } from '../../client';
 import { Layout } from '../../components/Layout';
 
-interface QueryBucketItem extends BucketItem {
+interface QueryBucketItem extends Omit<BucketItem, 'lastModified'> {
   lastModified: number;
 }
 
@@ -16,10 +16,11 @@ export const getServerSideProps = async (
 ) => {
   const minioClient = getMinioClient();
   const bucket = String(context.query.bucket);
+  const all = context.query.all === '1';
   const prefix = String(context.query.prefix ?? '');
 
   const objects = await new Promise<QueryBucketItem[]>((resolve, reject) => {
-    const stream = minioClient.listObjectsV2(bucket, prefix);
+    const stream = minioClient.listObjectsV2(bucket, prefix, all);
     const objs: QueryBucketItem[] = [];
     stream.on('data', (obj) => {
       objs.push({
