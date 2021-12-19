@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import { BucketItem } from 'minio';
 import type {
   NextPage,
@@ -5,6 +6,7 @@ import type {
   GetServerSidePropsContext,
 } from 'next';
 import { getMinioClient } from '../../client';
+import { FolderTree } from '../../components/FolderTree';
 import { Layout } from '../../components/Layout';
 
 interface QueryBucketItem extends Omit<BucketItem, 'lastModified'> {
@@ -39,14 +41,26 @@ export const getServerSideProps = async (
   return {
     props: {
       foo: 'bar',
+      bucketName: bucket,
       objects,
     },
   };
 };
 
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> =
-  ({ objects }) => {
-    return <Layout>Objects: {JSON.stringify(objects)}</Layout>;
+  ({ objects, bucketName }) => {
+    return (
+      <Layout>
+        <Grid container>
+          <Grid item xs={4}>
+            <FolderTree bucketName={bucketName} />
+          </Grid>
+          <Grid item xs={8}>
+            <div>Objects: {JSON.stringify(objects)}</div>
+          </Grid>
+        </Grid>
+      </Layout>
+    );
   };
 
 export default Home;
