@@ -4,6 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { dropRight } from 'lodash-es';
 import { QueryBucketItem } from '../shared/types';
+import { Box } from '@mui/material';
 
 interface TreeNode {
   name: string;
@@ -63,14 +64,16 @@ export const FolderTree: React.FC<{
   };
 
   return (
-    <TreeView
-      aria-label="file system navigator"
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-      sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
-    >
-      {renderTreeNodes(tree)}
-    </TreeView>
+    <Box sx={{ padding: 2 }}>
+      <TreeView
+        aria-label="file system navigator"
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}
+        sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+      >
+        {renderTreeNodes(tree)}
+      </TreeView>
+    </Box>
   );
 });
 FolderTree.displayName = 'FolderTree';

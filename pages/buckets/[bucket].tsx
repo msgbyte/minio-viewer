@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { getMinioClient } from '../../client';
 import { FolderTree } from '../../components/FolderTree';
 import { Layout } from '../../components/Layout';
+import { ObjectItem } from '../../components/ObjectItem';
 import { QueryBucketItem } from '../../shared/types';
 
 export const getServerSideProps = async (
@@ -54,11 +55,10 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> =
             <FolderTree allObjects={allObjects} onSelect={setPrefix} />
           </Grid>
           <Grid item xs={8}>
-            {/* <div>Objects: {JSON.stringify(data)}</div> */}
             {allObjects
               .filter((o) => o.name.startsWith(prefix))
               .map((o) => (
-                <div key={o.etag}>{o.name}</div>
+                <ObjectItem key={o.etag} object={o} />
               ))}
           </Grid>
         </Grid>
