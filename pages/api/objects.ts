@@ -1,15 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { BucketItem } from 'minio';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getMinioClient } from '../../client';
+import { QueryBucketItem } from '../../types';
 
 type Data = {
   objects: QueryBucketItem[];
 };
-
-interface QueryBucketItem extends Omit<BucketItem, 'lastModified'> {
-  lastModified: number;
-}
 
 export default async function handler(
   req: NextApiRequest,

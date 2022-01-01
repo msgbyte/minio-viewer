@@ -8,10 +8,7 @@ import type {
 import { getMinioClient } from '../../client';
 import { FolderTree } from '../../components/FolderTree';
 import { Layout } from '../../components/Layout';
-
-interface QueryBucketItem extends Omit<BucketItem, 'lastModified'> {
-  lastModified: number;
-}
+import { QueryBucketItem } from '../../types';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
