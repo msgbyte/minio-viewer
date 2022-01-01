@@ -1,12 +1,9 @@
-import React, { useDebugValue, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { TreeView, TreeItem } from '@mui/lab';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { useFetch } from '../hooks/useFetch';
-import { QueryBucketItem } from '../types';
-import Link from 'next/link';
-import Router from 'next/router';
 import { dropRight } from 'lodash-es';
+import { QueryBucketItem } from '../shared/types';
 
 interface TreeNode {
   name: string;

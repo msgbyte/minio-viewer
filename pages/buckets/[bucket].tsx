@@ -1,5 +1,4 @@
 import { Grid } from '@mui/material';
-import { BucketItem } from 'minio';
 import type {
   NextPage,
   InferGetServerSidePropsType,
@@ -9,7 +8,7 @@ import { useState } from 'react';
 import { getMinioClient } from '../../client';
 import { FolderTree } from '../../components/FolderTree';
 import { Layout } from '../../components/Layout';
-import { QueryBucketItem } from '../../types';
+import { QueryBucketItem } from '../../shared/types';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext

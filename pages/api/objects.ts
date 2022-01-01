@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getMinioClient } from '../../client';
-import { QueryBucketItem } from '../../types';
+import { QueryBucketItem } from '../../shared/types';
 
 type Data = {
   objects: QueryBucketItem[];
