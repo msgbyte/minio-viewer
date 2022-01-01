@@ -5,6 +5,7 @@ import type {
   InferGetServerSidePropsType,
   GetServerSidePropsContext,
 } from 'next';
+import { useState } from 'react';
 import { getMinioClient } from '../../client';
 import { FolderTree } from '../../components/FolderTree';
 import { Layout } from '../../components/Layout';
@@ -15,10 +16,10 @@ export const getServerSideProps = async (
 ) => {
   const minioClient = getMinioClient();
   const bucket = String(context.query.bucket);
-  const all = context.query.all === '1';
+  const all = true; // Fetch all data
   const prefix = String(context.query.prefix ?? '');
 
-  const objects = await new Promise<QueryBucketItem[]>((resolve, reject) => {
+  const allObjects = await new Promise<QueryBucketItem[]>((resolve, reject) => {
     const stream = minioClient.listObjectsV2(bucket, prefix, all);
     const objs: QueryBucketItem[] = [];
     stream.on('data', (obj) => {
@@ -37,27 +38,34 @@ export const getServerSideProps = async (
 
   return {
     props: {
-      foo: 'bar',
       bucketName: bucket,
-      objects,
+      allObjects,
     },
   };
 };
 
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> =
-  ({ objects, bucketName }) => {
+  ({ allObjects, bucketName }) => {
+    const [prefix, setPrefix] = useState('');
+
     return (
       <Layout>
         <Grid container>
           <Grid item xs={4}>
-            <FolderTree bucketName={bucketName} />
+            <FolderTree allObjects={allObjects} onSelect={setPrefix} />
           </Grid>
           <Grid item xs={8}>
-            <div>Objects: {JSON.stringify(objects)}</div>
+            {/* <div>Objects: {JSON.stringify(data)}</div> */}
+            {allObjects
+              .filter((o) => o.name.startsWith(prefix))
+              .map((o) => (
+                <div key={o.etag}>{o.name}</div>
+              ))}
           </Grid>
         </Grid>
       </Layout>
     );
   };
+Home.displayName = 'Home';
 
 export default Home;
